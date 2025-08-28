@@ -1,6 +1,6 @@
 from flask import (Flask, render_template, redirect, request, url_for)
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import (login_user, UserMixin, LoginManager)
+from flask_login import (login_user, login_required, logout_user,UserMixin, LoginManager)
 from flask_bcrypt import Bcrypt
 
 import os
@@ -91,13 +91,20 @@ def login():
     codepin = request.form["digit0"] + request.form["digit1"] + request.form["digit2"] + request.form["digit3"]
     phone   = request.form["phone"].replace('-','')
 
-    current_user = User.query.filter_by(phone_number=phone).first()
-    if current_user is None:
+    currentUser = User.query.filter_by(phone_number=phone).first()
+    if currentUser is None:
         return render_template("login.html", error=True)
 
-    if not current_user.verify_password(codepin):
+    if not currentUser.verify_password(codepin):
         return render_template("login.html", error=True)
         
-    login_user = current_user
+    login_user(currentUser)
+    return redirect(url_for("index"))
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
     return redirect(url_for("index"))
 
