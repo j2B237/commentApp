@@ -18,15 +18,13 @@ app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 
 db = SQLAlchemy(app)
 
-comments = []
-
 
 class Comment(db.Model):
     __tablename__ = "comments"
 
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(4096))
-    
+
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -34,9 +32,13 @@ def index():
     """ Home page"""
     
     if request.method == "GET":
-        return render_template("index.html", comments=comments)
+        return render_template("index.html", comments=Comment.query.all())
     
-    comments.append(request.form["contents"])
+    if request.form["contents"] != "":
+        comment = Comment(content=request.form["contents"])
+        db.session.add(comment)
+        db.session.commit()
+    
     return redirect(url_for('index'))
     
 
