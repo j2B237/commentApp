@@ -25,6 +25,12 @@
 
     <div class="container my-2">
 
+        {% if error %} 
+            <div class="alert alert-warning" role="alert">
+                Incorrect phone number or code pin
+            </div>
+        {% endif %}
+        
         <div class="row mb-3">
             <form action="." method="POST">
                 <!-- Input for Phone-number -->
@@ -32,7 +38,7 @@
                     <label for="phone">Tel: </label>
                     <div class="input-group">
                         <span class="input-group-text" id="basic-addon1">+221</span>
-                        <input type="tel" class="form-control"  id="phone" name="phone" maxlength="10"  pattern="[0-9]{2}-[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="77-345-67-18" required>
+                        <input type="tel" class="form-control"  id="phone" name="phone" maxlength="12"  pattern="[0-9]{2}-[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="77-345-67-18" required>
                     </div>
                     <small>Format: 77-345-67-18</small><br><br>
                 </div>
