@@ -41,7 +41,20 @@ def index():
     
     return redirect(url_for('index'))
 
-@app.route("/login", methods=["POST", "GET"])
+@app.route("/login/", methods=["POST", "GET"])
 def login():
-    return render_template("login.html")
+    """ Login page """
+
+    if request.method == "GET":
+        return render_template("login.html", error=False)
+    
+    if request.method == "POST":
+
+        codepin = request.form["digit0"] + request.form["digit1"] + request.form["digit2"] + request.form["digit3"]
+        phone   = request.form["phone"].replace('-','')
+
+        if phone != "785879012" or codepin != "1234":
+            return render_template("login.html", error=True)
+        
+    return redirect(url_for("index"))
 
