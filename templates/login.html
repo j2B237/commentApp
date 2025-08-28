@@ -29,17 +29,34 @@
             <form action="." method="POST">
                 <!-- Input for Phone-number -->
                 <div class="form-group">
-                    <label for="phonenumber">Tel: </label>
+                    <label for="phone">Tel: </label>
                     <div class="input-group">
                         <span class="input-group-text" id="basic-addon1">+221</span>
-                        <input type="tel" class="form-control"  id="username" name="phonenumber" maxlength="10" placeholder="778901234">
+                        <input type="tel" class="form-control"  id="phone" name="phone" maxlength="10"  pattern="[0-9]{2}-[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="77-345-67-18" required>
                     </div>
+                    <small>Format: 77-345-67-18</small><br><br>
                 </div>
 
                 <!-- Input for Code pin -->
                 <div class="form-group">
                     <label for="codepin">Code pin: </label>
-                    <input type="number" class="form-control" maxlength="4" name="codepin">
+                    <div class="row">
+                        
+                    </div>
+                    <div class="input-group">
+                        <div class="col">
+                            <input type="password" class="form-control" maxlength="1" pattern="[0-9]{1}" name="digit0">
+                        </div>
+                        <div class="col">
+                            <input type="password" class="form-control" maxlength="1" pattern="[0-9]{1}" name="digit1">
+                        </div>
+                        <div class="col">
+                            <input type="password" class="form-control" maxlength="1" pattern="[0-9]{1}" name="digit2">
+                        </div>
+                        <div class="col">
+                            <input type="password" class="form-control" maxlength="1" pattern="[0-9]{1}" name="digit3">
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-success my-1">Log in</button>
             </form>
