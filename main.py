@@ -1,5 +1,6 @@
 from flask import (Flask, render_template, redirect, request, url_for)
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_login import (current_user, login_user, login_required, logout_user,UserMixin, LoginManager)
 from flask_bcrypt import Bcrypt
 from datetime import datetime
@@ -13,7 +14,7 @@ SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostnam
     username="root",
     password="Ladife2025",
     hostname="127.0.0.1:3306",
-    databasename="comments",
+    databasename="dummydb",
 )
 
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
@@ -23,11 +24,13 @@ app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.secret_key = os.urandom(16)
 
 db = SQLAlchemy()
+migrate = Migrate(app, db)
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 
 # Initialize app extension
 db.init_app(app)
+#migrate.init_app(app)
 login_manager.init_app(app)
 bcrypt.init_app(app)
 
@@ -53,6 +56,9 @@ class User(db.Model, UserMixin):
 
     def verify_password(self, codepin):
         return bcrypt.check_password_hash(self.codepin_hashed, codepin)
+    
+    def __repr__(self):
+        return f"User : ID: {self.id} | Phone : {self.phone_number}"
 
 
 class Comment(db.Model):
@@ -97,6 +103,7 @@ def login():
     phone   = request.form["phone"].replace('-','')
 
     currentUser = User.query.filter_by(phone_number=phone).first()
+
     if currentUser is None:
         return render_template("login.html", error=True)
 
