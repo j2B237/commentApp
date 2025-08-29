@@ -32,13 +32,18 @@
 
     <div class="container my-2">
 
-        <div class="row my-3">
+        <div class="row my-2">
             <p><b>Recents comments</b></p>
         </div>
 
         {% for comment in comments %}
-            <div class="row">
-               <p style="tab-size: 4;">{{ comment.content }}</p>
+            <div class="row" style="margin-bottom: 1ex">
+                <div>
+                    {{ comment.content }}
+                </div>
+                <div>
+                    <small style="font-style: italic; color: dimgray;">Posted on {{ timestamp.strftime("%A, %d %B %Y at %H:%M") }} by anonymous</small>
+                </div>
             </div>
         {% endfor %}
        
