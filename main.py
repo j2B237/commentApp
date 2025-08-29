@@ -1,6 +1,6 @@
 from flask import (Flask, render_template, redirect, request, url_for)
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import (login_user, login_required, logout_user,UserMixin, LoginManager)
+from flask_login import (current_user, login_user, login_required, logout_user,UserMixin, LoginManager)
 from flask_bcrypt import Bcrypt
 
 import os
@@ -67,21 +67,24 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/", methods=["GET", "POST"])
 def index():
     """ Home page"""
     
     if request.method == "GET":
         return render_template("index.html", comments=Comment.query.all())
-    
-    if request.form["contents"] != "":
-        comment = Comment(content=request.form["contents"])
-        db.session.add(comment)
-        db.session.commit()
+
+    if not current_user.is_authenticated:
+        redirect (url_for("index"))
+    else:
+        if request.form["contents"] != "":
+            comment = Comment(content=request.form["contents"])
+            db.session.add(comment)
+            db.session.commit()
     
     return redirect(url_for('index'))
 
-@app.route("/login/", methods=["POST", "GET"])
+@app.route("/login/", methods=["GET", "POST"])
 def login():
     """ Login page """
 
