@@ -14,7 +14,7 @@ SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostnam
     username="root",
     password="Ladife2025",
     hostname="127.0.0.1:3306",
-    databasename="dummydb",
+    databasename="comments",
 )
 
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
