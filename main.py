@@ -88,6 +88,7 @@ def login():
     if request.method == "GET":
         return render_template("login.html", error=False)
     
+    # Get user credentials
     codepin = request.form["digit0"] + request.form["digit1"] + request.form["digit2"] + request.form["digit3"]
     phone   = request.form["phone"].replace('-','')
 
@@ -107,4 +108,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("index"))
-

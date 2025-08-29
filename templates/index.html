@@ -49,6 +49,12 @@
                     <input type="submit" class="btn btn-success my-1" value="Post comment">
                 </form>
             </div>
+        {% else %}
+            <div class="row my-2">
+                <p>
+                    <a href="{{ url_for('login') }}">Login to post a comment.</a>
+                </p>
+            </div>
         {% endif %}
     </div>
 
