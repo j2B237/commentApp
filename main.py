@@ -2,6 +2,7 @@ from flask import (Flask, render_template, redirect, request, url_for)
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import (current_user, login_user, login_required, logout_user,UserMixin, LoginManager)
 from flask_bcrypt import Bcrypt
+from datetime import datetime
 
 import os
 
@@ -72,7 +73,7 @@ def index():
     """ Home page"""
     
     if request.method == "GET":
-        return render_template("index.html", comments=Comment.query.all())
+        return render_template("index.html", comments=Comment.query.all(), timestamp=datetime.now())
 
     if not current_user.is_authenticated:
         redirect (url_for("index"))
